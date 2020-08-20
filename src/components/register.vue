@@ -1,46 +1,42 @@
 <template>
-  <el-container>
-    <el-header>
-      <div>
-        head
-      </div>
-    </el-header>
-    <el-main>
-      <div class="left-page">
-        images
-      </div>
-      <div class="register-container">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm register-page">
-          <el-form-item label="用户名" prop="username">
-            <el-input type="text" v-model="ruleForm.username"></el-input>
-          </el-form-item>
-          <el-form-item label="密码" prop="password">
-          <el-input type="password" v-model="ruleForm.password"></el-input>
-          </el-form-item>
-          <el-form-item label="确认密码" prop="checkPass">
-            <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="联系方式" prop="tel">
-            <el-input type="text" v-model="ruleForm.tel"></el-input>
-          </el-form-item>
-          <el-form-item label="邮箱" prop="email">
-            <el-input type="text" v-model="ruleForm.email"></el-input>
+  <div>
+    <my-head></my-head>
+    <el-container>
+      <el-main>
+        <div class="left-page">
+          images
+        </div>
+        <div class="register-container">
+          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm register-page" label-position="left">
+            <el-form-item label="用户名" prop="username">
+              <el-input type="text" v-model="ruleForm.username"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+              <el-input type="password" v-model="ruleForm.password"></el-input>
+            </el-form-item>
+            <el-form-item label="确认密码" prop="checkPass">
+              <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="联系方式" prop="tel">
+              <el-input type="text" v-model="ruleForm.tel"></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱" prop="email">
+              <el-input type="text" v-model="ruleForm.email"></el-input>
+            </el-form-item>
+            <el-form-item class="code-line" label="验证码" prop="code">
+              <el-input type="text" v-model="ruleForm.code"></el-input>
+            </el-form-item>
             <el-button type="primary" @click="checkCode()" round>获取验证码</el-button>
-          </el-form-item>
-          <el-form-item label="验证码" prop="code">
-            <el-input type="text" v-model="ruleForm.code"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-    </el-main>
-    <el-footer>Footer</el-footer>
-
-  </el-container>
-
+            <el-form-item class="register-group">
+              <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+              <el-button @click="resetForm('ruleForm')">重置</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </el-main>
+    </el-container>
+    <my-footer></my-footer>
+  </div>
 </template>
 
 <script>
@@ -169,26 +165,12 @@
     position: fixed;
     right: 190px;
   }
-
-  .el-header {
-    background-color: #B3C0D1;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
+ .code-line {
+   float: left;
+ }
+  .register-group {
+    position: relative;
+    right: 160px;
+    top: 30px;
   }
-  .el-footer {
-    background-color: #B3C0D1;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
-    position: fixed;
-    left: 0px;
-    bottom: 0px;
-    width: 100%;
-  }
-
 </style>

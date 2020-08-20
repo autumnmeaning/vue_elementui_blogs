@@ -1,18 +1,15 @@
 <template>
   <div class="page">
-    <el-header>
-      <div>
-        head
-        <div class="login-register">
-          <router-link to="/login">登录</router-link>/
-          <router-link to="/register">注册</router-link>
-        </div>
-      </div>
-    </el-header>
+    <div v-if="this.$cookies.get('user') == null">
+      <my-head></my-head>
+    </div>
+    <div v-else="this.$cookies.get('user') != null">
+      <my-head1></my-head1>
+    </div>
     <div class="blogs-advertising">
       <el-carousel :interval="4000" type="card" height="200px">
-        <el-carousel-item v-for="item in itemList" :key="item">
-          <h3 class="medium">{{ item }}</h3>
+        <el-carousel-item v-for="item in itemList" :key="item.id">
+          <h3 class="medium">{{ item.value }}</h3>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -22,9 +19,9 @@
         <el-radio-button :label="true">收起</el-radio-button>
       </el-radio-group>
       <el-menu default-active="1-4-1" class="el-menu-vertical-demo catagory" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-        <el-menu-item v-for="cate in categoryList" :key="cate" :index="cate.index">
+        <el-menu-item v-for="cate in categoryList" :key="cate.categoryId" :index="cate.categoryId.toString()">
           <i class="el-icon-menu"></i>
-          <span slot="title">{{ cate.category }}</span>
+          <span slot="title">{{ cate.categoryName }}</span>
         </el-menu-item>
       </el-menu>
     </div>
@@ -36,6 +33,7 @@
             v-infinite-scroll="load"
             infinite-scroll-disabled="disabled">
             <li v-for="i in count" class="list-item">{{ i }}</li>
+            <el-divider></el-divider>
           </ul>
           <p v-if="loading">加载中...</p>
           <p v-if="noMore">没有更多了</p>
@@ -46,24 +44,31 @@
 </template>
 
 <script>
+  import axios from "axios";
   export default {
     data() {
       return {
         isCollapse: true,
-        itemList: ["广告位招租","广告位招租","广告位招租","广告位招租","广告位招租","广告位招租"],
-        categoryList:[{
-          category: "分类一",
-          index: 1
+        itemList: [{
+          id: 1,
+          value: "广告位招租"
         },{
-          category: "分类二",
-          index: 2
+          id: 2,
+          value: "广告位招租"
         },{
-          category: "分类三",
-          index: 3
+          id: 3,
+          value: "广告位招租"
         },{
-          category: "分类四",
-          index: 4
+          id: 4,
+          value: "广告位招租"
+        },{
+          id: 5,
+          value: "广告位招租"
+        },{
+          id: 6,
+          value: "广告位招租"
         }],
+        categoryList:[],
         count: 10,
         loading: false
       };
@@ -82,6 +87,12 @@
           this.loading = false
         }, 2000)
       }
+    },
+    created() {
+      axios.get("http://localhost:8080/Categorys").then(res => {
+        console.log("data: " + res.data)
+        this.categoryList = res.data;
+      })
     },
     computed: {
       noMore () {
@@ -103,16 +114,6 @@
     position: fixed;
     top: 70px;
     left: 5px;
-  }
-  .el-header {
-    background-color: #B3C0D1;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
   }
   .catagory {
     position: fixed;
@@ -144,12 +145,14 @@
     left: 300px;
     top:90px;
   }
+  .write-page {
+    position: fixed;
+    right: 120px;
+    top: 0px;
+  }
   .article {
     position: fixed;
     top:350px;
     left: 300px;
-  }
-  .page {
-    height: 100%;
   }
 </style>
